@@ -9,12 +9,15 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@google/genai": "^2.8.0",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.0.8",
+    "ai": "^6.0.204",
     "bcryptjs": "^3.0.3",
     "mongoose": "^9.6.3",
     "next": "16.2.7",
     "next-auth": "^4.24.14",
+    "openai": "^6.42.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-email": "^6.5.0",
