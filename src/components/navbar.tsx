@@ -30,9 +30,9 @@ function Navbar() {
             className="text-2xl md:text-3xl font-extrabold tracking-tight"
           >
             <span className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
-              Mystery
-            </span>{' '}
-            Message
+             GhostT
+            </span>{''}
+            alk
           </Link>
 
           <div className="flex items-center gap-2 md:gap-4">

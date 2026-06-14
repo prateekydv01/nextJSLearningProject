@@ -129,7 +129,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Ask me Anything. All rights reserved.
+          © {new Date().getFullYear()} GhostTalk. All rights reserved.
         </div>
       </footer>
     </div>
