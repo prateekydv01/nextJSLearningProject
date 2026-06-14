@@ -1,27 +1,38 @@
-import { resend } from "@/lib/resend";
-import VerificationEmail from "../../emails/VerificationEmail";
+import { transporter } from "@/lib/nodemailer";
 import { ApiResponse } from "@/types/ApiResponse";
-import { success } from "zod";
 
 export async function sendVerificationEmail(
-    email: string,
-    username: string,
-    verifyCode: string
-): Promise<ApiResponse>{
-    try {
-        
-        const data = await resend.emails.send({
-            from: "onboarding@resend.dev",
-            to: email,
-            subject: 'Verification code',
-            react: VerificationEmail({username,otp:verifyCode}),
-        });
-        
+  email: string,
+  username: string,
+  verifyCode: string
+): Promise<ApiResponse> {
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verification Code",
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2>Hello ${username},</h2>
+          <p>Thank you for registering.</p>
+          <p>Your verification code is:</p>
+          <h1 style="letter-spacing: 5px;">${verifyCode}</h1>
+          <p>This code will expire shortly.</p>
+          
+        </div>
+      `,
+    });
 
-        return {success: true, message: "verification email send successfully"}
-        
-    } catch (emailError) {
-        console.error("Error sending verifcation emial: ",emailError)
-        return {success:false,message:"Failed to send Verification Emails"}
-    }
+    return {
+      success: true,
+      message: "Verification email sent successfully",
+    };
+  } catch (error) {
+    console.error("Error sending verification email:", error);
+
+    return {
+      success: false,
+      message: "Failed to send verification email",
+    };
+  }
 }
