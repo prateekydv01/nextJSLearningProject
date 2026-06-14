@@ -191,7 +191,7 @@ function Dashboard() {
           control={control}
           render={({ field }) => (
             <Switch
-              checked ={field?.value}
+              checked ={field?.value as boolean}
               onCheckedChange={
                 handleSwitchChange
               }
