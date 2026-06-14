@@ -9,7 +9,8 @@ export async function GET(request:Request){
 
     const session = await getServerSession(authOptions)
     const user  = session?.user
-
+    console.log(user)
+    
     if(!session || !session?.user){
         return Response.json(
             {
@@ -24,11 +25,18 @@ export async function GET(request:Request){
 
     try {
        const user = await userModel.aggregate([
-        {$match: {id:userId}},
-        {$unwind: '$messages'},
+        {$match: {_id:userId}},
+       {
+  $unwind: {
+    path: "$messages",
+    preserveNullAndEmptyArrays: true,
+  },
+},
         {$sort:{'messages.createdAt':-1}},
         {$group:{_id:'$_id',messages:{$push:'$messages'}}}
        ])
+        
+        console.log(user)
 
        if(!user){
         return Response.json({

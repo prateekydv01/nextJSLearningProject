@@ -46,76 +46,84 @@ function page() {
     }
 
     if (res?.url) {
-      // router.replace('/dashboard')
+      router.replace('/dashboard')
     }
   }
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            Welcome Back to True Feedback
+return (
+  <div className="light min-h-screen flex items-center justify-center bg-slate-100 px-4">
+    <div className="w-full max-w-md">
+      <div className="rounded-2xl bg-white p-8 shadow-xl border border-slate-200">
+        
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+            Welcome Back
           </h1>
-          <p className="mb-4">Sign in to continue your secret conversations</p>
+
+          <p className="mt-3 text-slate-600">
+            Sign in to continue your secret conversations
+          </p>
         </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+        >
           <FieldGroup>
-            
             <Controller
               name="identifier"
               control={form.control}
-              render={({ field , fieldState}) => (
+              render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Email/Username</FieldLabel>
+                  <FieldLabel className="text-slate-700">
+                    Email or Username
+                  </FieldLabel>
 
                   <FieldContent>
                     <Input
-                    {...field} placeholder='Enter Email or Username'
+                      {...field}
+                      placeholder="Enter your email or username"
+                      className="h-11 bg-white border-slate-300 text-slate-900"
                     />
 
-
-                      <FieldError>
-                        {fieldState.error?.message}
-                      </FieldError>
-                    
+                    <FieldError>
+                      {fieldState.error?.message}
+                    </FieldError>
                   </FieldContent>
-                  
                 </Field>
-  )}
-            >
+              )}
+            />
+          </FieldGroup>
 
-            </Controller>
-
+          <FieldGroup>
             <Controller
               name="password"
               control={form.control}
-              render={({ field , fieldState}) => (
+              render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Password</FieldLabel>
+                  <FieldLabel className="text-slate-700">
+                    Password
+                  </FieldLabel>
 
                   <FieldContent>
                     <Input
-                    {...field} placeholder='Enter Password' type='password'
+                      {...field}
+                      type="password"
+                      placeholder="Enter your password"
+                      className="h-11 bg-white border-slate-300 text-slate-900"
                     />
 
-
-                      <FieldError>
-                        {fieldState.error?.message}
-                      </FieldError>
-                    
+                    <FieldError>
+                      {fieldState.error?.message}
+                    </FieldError>
                   </FieldContent>
-                  
                 </Field>
-  )}
-            >
-
-            </Controller>
+              )}
+            />
           </FieldGroup>
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 text-base"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -128,10 +136,20 @@ function page() {
             )}
           </Button>
         </form>
+
+        <div className="mt-6 text-center text-sm text-slate-600">
+          Don't have an account?{" "}
+          <a
+            href="/sign-up"
+            className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+          >
+            Sign Up
+          </a>
+        </div>
       </div>
     </div>
-
-  )
+  </div>
+)
 }
 
 export default page

@@ -85,51 +85,66 @@ export default function SignUpPage() {
   
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+  <div className="light min-h-screen flex items-center justify-center bg-slate-100 px-4 py-10">
+    <div className="w-full max-w-md">
+      <div className="rounded-2xl bg-white p-8 shadow-xl border border-slate-200">
+        
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
             Join True Feedback
           </h1>
-          <p className="mb-4">Sign up to start your anonymous adventure</p>
+
+          <p className="mt-3 text-slate-600">
+            Sign up to start your anonymous adventure
+          </p>
         </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'> 
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+        >
           <FieldGroup>
-
             <Controller
               name="username"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Username</FieldLabel>
+                  <FieldLabel className="text-slate-700">
+                    Username
+                  </FieldLabel>
 
                   <FieldContent>
                     <Input
                       {...field}
+                      className="h-11 bg-white border-slate-300"
+                      placeholder="Choose a username"
                       onChange={(e) => {
-                        field.onChange(e);
-                        setUsername(e.target.value);
+                        field.onChange(e)
+                        setUsername(e.target.value)
                       }}
                     />
 
-                    {isCheckingUsername && (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    )}
+                    <div className=" flex items-center">
+                      {isCheckingUsername ? (
+                        <div className="flex items-center gap-2 text-slate-500 text-sm">
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Checking username...
+                        </div>
+                      ) : (
+                        usernameMessage && (
+                          <FieldDescription
+                            className={
+                              usernameMessage === "username available"
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }
+                          >
+                            {usernameMessage}
+                          </FieldDescription>
+                        )
+                      )}
+                    </div>
 
-                    {!isCheckingUsername && usernameMessage && (
-                      <FieldDescription
-                        className={
-                          usernameMessage === "username available"
-                            ? "text-green-500"
-                            : "text-red-500"
-                        }
-                      >
-                        {usernameMessage}
-                      </FieldDescription>
-                    )} 
-
-                    
                   </FieldContent>
                 </Field>
               )}
@@ -140,25 +155,27 @@ export default function SignUpPage() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Email</FieldLabel>
+                  <FieldLabel className="text-slate-700">
+                    Email
+                  </FieldLabel>
 
                   <FieldContent>
                     <Input
-                    {...field} type='email'
+                      {...field}
+                      type="email"
+                      placeholder="Enter your email"
+                      className="h-11 bg-white border-slate-300"
                     />
 
                     <FieldDescription>
-                      We will send you a verification code.
+                      We'll send a verification code to this email.
                     </FieldDescription>
-                      <FieldError>
-                        {fieldState.error?.message}
-                      </FieldError>
-                    
-                  </FieldContent>
-                  
-                </Field>
 
-                
+                    <FieldError>
+                      {fieldState.error?.message}
+                    </FieldError>
+                  </FieldContent>
+                </Field>
               )}
             />
 
@@ -167,15 +184,21 @@ export default function SignUpPage() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Password</FieldLabel>
+                  <FieldLabel className="text-slate-700">
+                    Password
+                  </FieldLabel>
 
                   <FieldContent>
                     <Input
-                    {...field} type='password'
+                      {...field}
+                      type="password"
+                      placeholder="Create a strong password"
+                      className="h-11 bg-white border-slate-300"
                     />
+
                     <FieldError>
-                        {fieldState.error?.message}
-                      </FieldError>
+                      {fieldState.error?.message}
+                    </FieldError>
                   </FieldContent>
                 </Field>
               )}
@@ -183,24 +206,33 @@ export default function SignUpPage() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full h-11 text-base"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
+                  Creating Account...
                 </>
               ) : (
-                "Sign Up"
+                "Create Account"
               )}
             </Button>
-
           </FieldGroup>
-
         </form>
+
+        <div className="mt-6 text-center text-sm text-slate-600">
+          Already have an account?{" "}
+          <a
+            href="/sign-in"
+            className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+          >
+            Sign In
+          </a>
+        </div>
       </div>
     </div>
-  )
+  </div>
+)
 }
 

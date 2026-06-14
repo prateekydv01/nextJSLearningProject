@@ -7,6 +7,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 import { Toaster } from "@/components/ui/sonner"
+import Navbar from "@/components/navbar";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -28,9 +29,12 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+      >
+         <Navbar />
         <body className="min-h-full flex flex-col">{children}
-          <Toaster />
+         
+            <Toaster />
+          
       </body>
       
     </html>
