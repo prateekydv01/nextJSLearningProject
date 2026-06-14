@@ -50,17 +50,27 @@ function page() {
     }
   }
 return (
-  <div className="light min-h-screen flex items-center justify-center bg-slate-100 px-4">
-    <div className="w-full max-w-md">
-      <div className="rounded-2xl bg-white p-8 shadow-xl border border-slate-200">
-        
+  <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4">
+    {/* Background */}
+    <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10" />
+
+    {/* Blur Effects */}
+    <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+    <div className="absolute bottom-20 right-10 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl" />
+
+    <div className="relative z-10 w-full max-w-md">
+      <div className="rounded-2xl border bg-background/70 p-8 shadow-2xl backdrop-blur-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
-            Welcome Back
+          <h1 className="text-4xl font-extrabold tracking-tight">
+            Welcome
+            <span className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+              {" "}
+              Back
+            </span>
           </h1>
 
-          <p className="mt-3 text-slate-600">
-            Sign in to continue your secret conversations
+          <p className="mt-3 text-muted-foreground">
+            Sign in to continue your anonymous conversations
           </p>
         </div>
 
@@ -74,7 +84,7 @@ return (
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel className="text-slate-700">
+                  <FieldLabel>
                     Email or Username
                   </FieldLabel>
 
@@ -82,7 +92,7 @@ return (
                     <Input
                       {...field}
                       placeholder="Enter your email or username"
-                      className="h-11 bg-white border-slate-300 text-slate-900"
+                      className="h-11 bg-background/60 backdrop-blur"
                     />
 
                     <FieldError>
@@ -100,7 +110,7 @@ return (
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel className="text-slate-700">
+                  <FieldLabel>
                     Password
                   </FieldLabel>
 
@@ -109,7 +119,7 @@ return (
                       {...field}
                       type="password"
                       placeholder="Enter your password"
-                      className="h-11 bg-white border-slate-300 text-slate-900"
+                      className="h-11 bg-background/60 backdrop-blur"
                     />
 
                     <FieldError>
@@ -132,16 +142,16 @@ return (
                 Signing In...
               </>
             ) : (
-              "Sign In"
+              'Sign In'
             )}
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-slate-600">
-          Don't have an account?{" "}
+        <div className="mt-6 text-center text-sm text-muted-foreground">
+          Don't have an account?{' '}
           <a
             href="/sign-up"
-            className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+            className="font-semibold text-primary hover:underline"
           >
             Sign Up
           </a>
@@ -149,7 +159,7 @@ return (
       </div>
     </div>
   </div>
-)
+);
 }
 
 export default page

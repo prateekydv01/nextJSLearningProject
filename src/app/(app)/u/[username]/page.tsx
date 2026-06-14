@@ -140,124 +140,162 @@ export default function SendMessage() {
   };
 
   return (
-    <div className="container mx-auto my-8 max-w-4xl rounded bg-white p-6">
-      <h1 className="mb-6 text-center text-4xl font-bold">
-        Public Profile Link
-      </h1>
+  <div className="relative min-h-screen overflow-hidden">
+    {/* Background */}
+    <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10" />
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6"
-      >
-        <div className="space-y-2">
-          <label className="text-sm font-medium">
-            Send Anonymous Message to @{username}
-          </label>
+    {/* Blur Effects */}
+    <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+    <div className="absolute bottom-20 right-10 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl" />
 
-          <Controller
-            name="content"
-            control={control}
-            render={({ field }) => (
-              <Textarea
-                id="content"
-                placeholder="Write your anonymous message here"
-                className="resize-none"
-                {...field}
-              />
+    <div className="relative z-10 container mx-auto px-4 py-10">
+      <div className="mx-auto max-w-4xl rounded-2xl border bg-background/70 p-8 shadow-2xl backdrop-blur-md">
+        <h1 className="mb-2 text-center text-4xl font-extrabold tracking-tight">
+          Public
+          <span className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+            {' '}
+            Profile
+          </span>
+        </h1>
+
+        <p className="mb-8 text-center text-muted-foreground">
+          Send completely anonymous messages to @{username}
+        </p>
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6"
+        >
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Your Anonymous Message
+            </label>
+
+            <Controller
+              name="content"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  id="content"
+                  placeholder={`Write an anonymous message to @${username}`}
+                  className="min-h-[140px] resize-none bg-background/60 backdrop-blur"
+                  {...field}
+                />
+              )}
+            />
+
+            {errors.content && (
+              <p className="text-sm text-destructive">
+                {errors.content.message}
+              </p>
             )}
-          />
+          </div>
 
-          {errors.content && (
-            <p className="text-sm text-red-500">
-              {errors.content.message}
-            </p>
-          )}
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              size="lg"
+              disabled={
+                isLoading ||
+                !messageContent?.trim()
+              }
+            >
+              {isLoading && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+
+              {isLoading
+                ? 'Please wait...'
+                : 'Send Message'}
+            </Button>
+          </div>
+        </form>
+
+        <div className="my-10">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-xl font-semibold">
+                AI Suggested Messages
+              </h2>
+
+              <p className="text-sm text-muted-foreground">
+                Click any suggestion to use it.
+              </p>
+            </div>
+
+            <Button
+              onClick={
+                fetchSuggestedMessages
+              }
+              disabled={
+                isSuggestLoading
+              }
+              type="button"
+            >
+              {isSuggestLoading && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+
+              {isSuggestLoading
+                ? 'Generating...'
+                : 'Generate Suggestions'}
+            </Button>
+          </div>
+
+          <Card className="border bg-background/50 shadow-xl backdrop-blur-md">
+            <CardHeader>
+              <h3 className="text-xl font-semibold">
+                Suggested Messages
+              </h3>
+            </CardHeader>
+
+            <CardContent className="flex flex-col gap-3">
+              {suggestedMessages.map(
+                (
+                  message,
+                  index
+                ) => (
+                  <Button
+                    key={index}
+                    type="button"
+                    variant="outline"
+                    onClick={() =>
+                      handleMessageClick(
+                        message
+                      )
+                    }
+                    className="h-auto justify-start whitespace-normal text-left"
+                  >
+                    {message}
+                  </Button>
+                )
+              )}
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="flex justify-center">
-          <Button
-            type="submit"
-            disabled={
-              isLoading ||
-              !messageContent?.trim()
-            }
-          >
-            {isLoading && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
+        <Separator className="my-8" />
 
-            {isLoading
-              ? 'Please wait'
-              : 'Send It'}
-          </Button>
-        </div>
-      </form>
+        <div className="text-center">
+          <h3 className="mb-2 text-xl font-semibold">
+            Want your own message
+            board?
+          </h3>
 
-      <div className="my-8 space-y-4">
-        <div className="space-y-2">
-          <Button
-            onClick={fetchSuggestedMessages}
-            disabled={isSuggestLoading}
-            className="my-4"
-            type="button"
-          >
-            {isSuggestLoading && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-
-            {isSuggestLoading
-              ? 'Generating...'
-              : 'Suggest Messages'}
-          </Button>
-
-          <p>
-            Click on any message below to
-            select it.
+          <p className="mb-6 text-muted-foreground">
+            Create an account and
+            start receiving anonymous
+            feedback.
           </p>
+
+          <Link href="/sign-up">
+            <Button size="lg">
+              Create Your Account
+            </Button>
+          </Link>
         </div>
-
-        <Card>
-          <CardHeader>
-            <h3 className="text-xl font-semibold">
-              Suggested Messages
-            </h3>
-          </CardHeader>
-
-          <CardContent className="flex flex-col space-y-4">
-            {suggestedMessages.map(
-              (message, index) => (
-                <Button
-                  key={index}
-                  type="button"
-                  variant="outline"
-                  onClick={() =>
-                    handleMessageClick(
-                      message
-                    )
-                  }
-                  className="justify-start h-auto whitespace-normal text-left"
-                >
-                  {message}
-                </Button>
-              )
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      <Separator className="my-6" />
-
-      <div className="text-center">
-        <div className="mb-4">
-          Get Your Message Board
-        </div>
-
-        <Link href="/sign-up">
-          <Button>
-            Create Your Account
-          </Button>
-        </Link>
       </div>
     </div>
-  );
+  </div>
+);
 }

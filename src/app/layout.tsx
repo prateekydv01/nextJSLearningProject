@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
 import App from "@/context/AuthProvider";
+import Navbar from "@/components/navbar";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-import { Toaster } from "@/components/ui/sonner"
-import Navbar from "@/components/navbar";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -25,19 +28,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <App>
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      >
-         <Navbar />
-        <body className="min-h-full flex flex-col">{children}
-         
+      suppressHydrationWarning
+    >
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <App>
+            <Navbar />
+            {children}
             <Toaster />
-          
+          </App>
+        </ThemeProvider>
       </body>
-      
     </html>
-    </App>
   );
 }

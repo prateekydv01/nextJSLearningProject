@@ -135,7 +135,11 @@ function Dashboard() {
   };
 
   if (!session?.user) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   const { username } =
@@ -157,88 +161,112 @@ function Dashboard() {
   };
 
   return (
-    <div className="mx-4 my-8 w-full max-w-6xl rounded bg-white p-6 md:mx-8 lg:mx-auto">
-      <h1 className="mb-4 text-4xl font-bold">
-        User Dashboard
-      </h1>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10" />
 
-      {/* Profile Link */}
-      <div className="mb-6">
-        <h2 className="mb-2 text-lg font-semibold">
-          Copy Your Unique Link
-        </h2>
+      {/* Blur Effects */}
+      <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+      <div className="absolute bottom-20 right-10 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl" />
 
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
-            value={profileUrl}
-            disabled
-            className="w-full rounded border p-2"
-          />
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-10">
+        <div className="rounded-2xl border bg-background/70 p-8 shadow-2xl backdrop-blur-md">
+          <h1 className="mb-8 text-4xl font-extrabold tracking-tight">
+            {username}'s
+            <span className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+              {' '}
+              Dashboard
+            </span>
+          </h1>
 
-          <Button
-            onClick={copyToClipboard}
-          >
-            Copy
-          </Button>
-        </div>
-      </div>
+          {/* Profile Link */}
+          <div className="mb-8">
+            <h2 className="mb-3 text-lg font-semibold">
+              Copy Your Unique Link
+            </h2>
 
-      {/* Accept Messages Toggle */}
-      <div className="mb-6 flex items-center gap-3">
-        <Controller
-          name="acceptMessages"
-          control={control}
-          render={({ field }) => (
-            <Switch
-              checked ={field?.value as boolean}
-              onCheckedChange={
-                handleSwitchChange
-              }
-              disabled={
-                isSwitchLoading
-              }
-            />
-          )}
-        />
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <input
+                type="text"
+                value={profileUrl}
+                disabled
+                className="w-full rounded-lg border bg-background/60 px-4 py-2 backdrop-blur"
+              />
 
-        <span>
-          Accept Messages:{' '}
-          {acceptMessages
-            ? 'On'
-            : 'Off'}
-        </span>
-      </div>
+              <Button
+                onClick={copyToClipboard}
+                className="sm:w-auto"
+              >
+                Copy Link
+              </Button>
+            </div>
+          </div>
 
-      <Separator />
+          {/* Accept Messages Toggle */}
+          <div className="mb-8 rounded-xl border bg-background/40 p-4 backdrop-blur">
+            <div className="flex items-center gap-4">
+              <Controller
+                name="acceptMessages"
+                control={control}
+                render={({ field }) => (
+                  <Switch
+                    checked={field?.value as boolean}
+                    onCheckedChange={
+                      handleSwitchChange
+                    }
+                    disabled={
+                      isSwitchLoading
+                    }
+                  />
+                )}
+              />
 
-      {/* Messages */}
-      <div className="mt-6">
-        <h2 className="mb-4 text-2xl font-semibold">
-          Messages
-        </h2>
+              <span className="font-medium">
+                Accept Messages:{' '}
+                <span className="text-primary">
+                  {acceptMessages
+                    ? 'On'
+                    : 'Off'}
+                </span>
+              </span>
+            </div>
+          </div>
 
-        {isLoading ? (
-          <p>Loading messages...</p>
-        ) : messages.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {messages.map(
-              (message) => (
-                <MessageCard
-                  key={message._id.toString()}
-                  message={
-                    message
-                  }
-                  onMessageDelete={
-                    handleDeleteMessage
-                  }
-                />
-              )
+          <Separator />
+
+          {/* Messages */}
+          <div className="mt-8">
+            <h2 className="mb-6 text-2xl font-bold">
+              Anonymous Messages
+            </h2>
+
+            {isLoading ? (
+              <div className="py-10 text-center text-muted-foreground">
+                Loading messages...
+              </div>
+            ) : messages.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                {messages.map(
+                  (message) => (
+                    <MessageCard
+                      key={message._id.toString()}
+                      message={
+                        message
+                      }
+                      onMessageDelete={
+                        handleDeleteMessage
+                      }
+                    />
+                  )
+                )}
+              </div>
+            ) : (
+              <div className="rounded-xl border bg-background/40 p-8 text-center text-muted-foreground backdrop-blur">
+                No messages found.
+              </div>
             )}
           </div>
-        ) : (
-          <p>No messages found.</p>
-        )}
+        </div>
       </div>
     </div>
   );

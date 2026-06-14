@@ -37,47 +37,73 @@ function VerifyAccount() {
         }
     }
   return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-          <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-              <div className="text-center">
-                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-                    Verify Your Account
-                </h1>
-                <p className="mb-4">Enter the verification code sent to your email</p>
-                </div>
-          
+  <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4">
+    {/* Background */}
+    <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10" />
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <Controller
-              name="code"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Verification Code</FieldLabel>
+    {/* Blur Effects */}
+    <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+    <div className="absolute bottom-20 right-10 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl" />
 
-                  <FieldContent>
-                    <Input
-                    {...field} 
-                    />
+    <div className="relative z-10 w-full max-w-md">
+      <div className="rounded-2xl border bg-background/70 p-8 shadow-2xl backdrop-blur-md">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-extrabold tracking-tight">
+            Verify
+            <span className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+              {' '}
+              Account
+            </span>
+          </h1>
 
-                      <FieldError>
-                        {fieldState.error?.message}
-                      </FieldError>
-                    
-                  </FieldContent>
-                  
-                </Field>
+          <p className="mt-3 text-muted-foreground">
+            Enter the verification code sent to your email
+          </p>
+        </div>
 
-                
-              )}
-            />
-            
-                  <Button type="submit">Verify</Button>
-              
-              </form>
-            </div>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+        >
+          <Controller
+            name="code"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>
+                  Verification Code
+                </FieldLabel>
+
+                <FieldContent>
+                  <Input
+                    {...field}
+                    placeholder="Enter verification code"
+                    className="h-11 bg-background/60 backdrop-blur"
+                  />
+
+                  <FieldDescription>
+                    Check your inbox for the code.
+                  </FieldDescription>
+
+                  <FieldError>
+                    {fieldState.error?.message}
+                  </FieldError>
+                </FieldContent>
+              </Field>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="w-full h-11 text-base"
+          >
+            Verify Account
+          </Button>
+        </form>
+      </div>
     </div>
-  )
+  </div>
+);
 }
 
 export default VerifyAccount
